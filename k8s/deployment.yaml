@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trail-finder
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: trail-finder
+  template:
+    metadata:
+      labels:
+        app: trail-finder
+    spec:
+      containers:
+      - name: trail-finder
+        image: <awsurl>.dkr.ecr.us-east-1.amazonaws.com/trail-finder:v0.1
+        ports:
+        - containerPort: 8080
+        env:
+        - name: DB_CONN_STRING
+          valueFrom:
+            configMapKeyRef:
+              name: trail-finder-config
+              key: DB_CONN_STRING
+        volumeMounts:                       
+        - name: csv-volume
+          mountPath: /root/BoulderTrailHeads.csv
+          subPath: BoulderTrailHeads.csv
+      volumes:                              
+      - name: csv-volume
+        configMap:
+          name: trail-csv
