@@ -59,32 +59,32 @@ The application is accessible at:
 
 ### 1. Clone the Repository
 
-\`\`\`bash
+```
 git clone <repository_url>
 cd sap-eb-take-home-problem
-\`\`\`
+```
 
 ### 2. Configure Environment Variables
 
 Create a `.env` file in the root directory and add:
 
-\`\`\`makefile
+```
 DB_CONN_STRING="postgresql://<username>:<password>@localhost:5432/trails_db"
-\`\`\`
+```
 
 ### 3. Install Dependencies
 
-\`\`\`bash
+```
 go mod download
-\`\`\`
+```
 
 ### 4. Run Migrations
 
 To run the database migrations:
 
-\`\`\`bash
+```
 go run main.go migrate
-\`\`\`
+```
 
 This will create the required database tables and columns.
 
@@ -92,9 +92,9 @@ This will create the required database tables and columns.
 
 To run the server locally:
 
-\`\`\`bash
+```
 go run main.go --server
-\`\`\`
+```
 
 The server will be available at [http://localhost:8080](http://localhost:8080).
 
@@ -102,10 +102,10 @@ The server will be available at [http://localhost:8080](http://localhost:8080).
 
 To use the CLI tool, run:
 
-\`\`\`bash
+```
 go build -o trail-cli cli.go
 ./trail-cli <command>
-\`\`\`
+```
 
 **Available CLI commands:**
 
@@ -114,46 +114,46 @@ go build -o trail-cli cli.go
 
 **Example:**
 
-\`\`\`bash
+```
 ./trail-cli loadcsv --file=BoulderTrailHeads.csv
-\`\`\`
+```
 
 ### 7. Testing
 
 To run the test suite:
 
-\`\`\`bash
+```
 go test ./...
-\`\`\`
+```
 
 ## Docker Setup
 
 ### 1. Build the Docker Image
 
-\`\`\`bash
+```
 docker build -t trail-finder:latest .
-\`\`\`
+```
 
 ### 2. Run the Docker Container
 
-\`\`\`bash
+```
 docker run -p 8080:8080 -e DB_CONN_STRING="postgresql://<username>:<password>@<db_host>:5432/trails_db" trail-finder:latest
-\`\`\`
+```
 
 ### 3. Push to AWS ECR
 
 Authenticate Docker to AWS ECR:
 
-\`\`\`bash
+```
 aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin <your-aws-account-id>.dkr.ecr.us-east-1.amazonaws.com
-\`\`\`
+```
 
 Tag and Push the image:
 
-\`\`\`bash
+```
 docker tag trail-finder:latest <your-aws-account-id>.dkr.ecr.us-east-1.amazonaws.com/trail-finder:latest
 docker push <your-aws-account-id>.dkr.ecr.us-east-1.amazonaws.com/trail-finder:latest
-\`\`\`
+```
 
 ## Kubernetes Deployment
 
@@ -161,39 +161,39 @@ docker push <your-aws-account-id>.dkr.ecr.us-east-1.amazonaws.com/trail-finder:l
 
 Apply the PostgreSQL deployment:
 
-\`\`\`bash
+```
 kubectl apply -f k8s/postgres-deployment.yaml
 kubectl apply -f k8s/postgres-service.yaml
-\`\`\`
+```
 
 ### 2. Deploy ConfigMap and Secret
 
 Apply the ConfigMap and Secret for environment variables:
 
-\`\`\`bash
+```
 kubectl apply -f k8s/configmap.yaml
 kubectl apply -f k8s/secret.yaml
-\`\`\`
+```
 
 ### 3. Deploy the Trail Finder App
 
-\`\`\`bash
+```
 kubectl apply -f k8s/deployment.yaml
 kubectl apply -f k8s/service.yaml
-\`\`\`
+```
 
 ### 4. Check Application Status
 
-\`\`\`bash
+```
 kubectl get pods
 kubectl get svc
-\`\`\`
+```
 
 To check logs of a running pod:
 
-\`\`\`bash
+```
 kubectl logs <pod_name>
-\`\`\`
+```
 
 ## Interacting with the API
 
@@ -201,27 +201,27 @@ kubectl logs <pod_name>
 
 Retrieve a list of trails:
 
-\`\`\`bash
+```
 curl -X GET "http://localhost:8080/trails?page=1&limit=5"
-\`\`\`
+```
 
 ### 2. Load Trails from CSV (via API)
 
-\`\`\`bash
+```
 curl -X POST -H "Content-Type: application/json" -d '{"file_path": "./BoulderTrailHeads.csv"}' "http://localhost:8080/loadcsv"
-\`\`\`
+```
 
 ### 3. Filter Trails
 
-\`\`\`bash
+```
 curl -X GET "http://localhost:8080/trails?restrooms=yes&fishing=yes"
-\`\`\`
+```
 
 ## Project Structure
 
-\`\`\`bash
+```
 sap-eb-take-home-problem/
-│  
+│
 ├── cmd/ # CLI tool
 ├── db/ # Database-related code
 ├── handlers/ # API handlers
@@ -236,7 +236,7 @@ sap-eb-take-home-problem/
 ├── go.mod # Go module file
 ├── main.go # Main application file
 └── README.md # This documentation
-\`\`\`
+```
 
 ## Technologies Used
 
